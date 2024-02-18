@@ -1,0 +1,69 @@
+<script>
+  let index = 0;
+  let imageList = [];
+  const imageURLColumn = 2;
+  const imageDispIntervalColomn = 4;
+  const defaultImageURL = "https://lh3.googleusercontent.com/d/1u3pXM4l88Gy-bHLNg7Qsepke86vEWGxS";
+  const defaultInterval = 5; //秒
+  let timerID = null;
+
+  function changeImage() {
+    let imageURL = "";
+    let interval = 0;
+    if (index == imageList.length - 1) {
+      getDataFromSpreadSheet();
+      index = 0;
+    }
+    if (imageList[index][imageURLColumn] == "") {
+      imageURL = defaultImageURL;
+    } else {
+      imageURL = imageList[index][imageURLColumn]
+    }
+    if (imageList[index][imageDispIntervalColomn] == "") {
+      interval = defaultInterval;
+    } else {
+      interval = imageList[index][imageDispIntervalColomn];
+    }
+    index++;
+    showImage(imageURL, interval);
+    if (timerID) {
+      clearTimeout(timerID); 
+    }
+    timerID = setTimeout(() => changeImage(), interval * 1000)
+  }
+
+  // サーバーからデータを取得して設定
+  function getInitData() {
+    google.script.run.withSuccessHandler(setData).getData();
+  }
+
+  // 取得したデータを変数にセット
+  function setData(data) {
+    imageList = JSON.parse(JSON.stringify(data));;
+  }
+
+  // フェードインアウトの処理
+  function fadeInOut(interval) {
+    const element = document.querySelector("#image");
+    element.animate(
+      { opacity: [0, 1, 1, 1, 0] },
+      {
+        duration: interval,
+      }
+    )
+  }
+
+  //引数の画像を表示
+  function showImage(url, interval) {
+    fadeInOut(interval * 1000);
+    const imgElement = document.getElementById("image");
+    imgElement.src = url;
+  }
+
+  function getDataFromSpreadSheet() {
+    google.script.run.withSuccessHandler(setData).getData();
+  }
+  // main
+  getDataFromSpreadSheet();
+  setTimeout(() => changeImage(), 5000);
+</script>
