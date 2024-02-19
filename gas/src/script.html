@@ -27,15 +27,18 @@
   function changeImage() {
     let imageURL = "";
     let interval = 0;
-    if (index == imageList.length - 1) {
-      getDataFromSpreadSheet();
-      index = 0;
-    }
+
     imageURL = validateImageURLData();
     interval = validateIntervalData();
 
     showImage(imageURL, interval);
-    index++;
+
+    if (index == imageList.length - 1) {
+      getDataFromSpreadSheet();
+      index = 0;
+    } else {
+      index++;
+    }
     addImagePreloadLink(imageList[index][imageURLColumn]);
     if (timerID) {
       clearTimeout(timerID);
