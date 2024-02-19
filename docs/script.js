@@ -26,6 +26,7 @@ function changeImage() {
   }
   index++;
   showImage(imageURL, interval);
+  addImagePreloadLink(imageList[index][imageDispIntervalColomn]);
 
   if (timerID) {
     clearTimeout(timerID);
@@ -49,6 +50,23 @@ function showImage(url, interval) {
   fadeInOut(interval * 1000);
   const imgElement = document.getElementById("image");
   imgElement.src = url;
+}
+
+function clearPreloadLink() {
+  // 既存のpreloadリンクを削除
+  const existingPreloadLinks = document.querySelectorAll(
+    'link[rel="preload"][as="image"]'
+  );
+  existingPreloadLinks.forEach((link) => link.remove());
+}
+
+function addImagePreloadLink(imageURL) {
+  clearPreloadLink();
+  const preloadLink = document.createElement("link");
+  preloadLink.rel = "preload";
+  preloadLink.as = "image";
+  preloadLink.href = imageURL;
+  document.head.appendChild(preloadLink);
 }
 
 function getDataFromSpreadSheet() {
