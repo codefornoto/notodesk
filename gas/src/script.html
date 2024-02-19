@@ -26,6 +26,7 @@
     }
     index++;
     showImage(imageURL, interval);
+    addImagePreloadLink(imageList[index][imageURLColumn]);
     if (timerID) {
       clearTimeout(timerID); 
     }
@@ -39,7 +40,7 @@
 
   // 取得したデータを変数にセット
   function setData(data) {
-    imageList = JSON.parse(JSON.stringify(data));;
+    imageList = JSON.parse(JSON.stringify(data));
   }
 
   // フェードインアウトの処理
@@ -62,6 +63,20 @@
 
   function getDataFromSpreadSheet() {
     google.script.run.withSuccessHandler(setData).getData();
+  }
+  function clearPreloadLink(){
+    // 既存のpreloadリンクを削除
+    const existingPreloadLinks = document.querySelectorAll('link[rel="preload"][as="image"]');
+    existingPreloadLinks.forEach(link => link.remove());
+  }
+
+  function addImagePreloadLink(imageURL) {
+    clearPreloadLink();
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = imageURL;
+    document.head.appendChild(preloadLink);
   }
   // main
   getDataFromSpreadSheet();
