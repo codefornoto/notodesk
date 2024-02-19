@@ -7,6 +7,23 @@
   const defaultInterval = 5; //秒
   let timerID = null;
 
+
+  function validateImageURLData() {
+    if (imageList[index][imageURLColumn] == "") {
+      return defaultImageURL;
+    } else {
+      return imageList[index][imageURLColumn];
+    }
+  }
+
+  function validateIntervalData() {
+    if (imageList[index][imageDispIntervalColomn] == "") {
+      return defaultInterval;
+    } else {
+      return imageList[index][imageDispIntervalColomn];
+    }
+  }
+
   function changeImage() {
     let imageURL = "";
     let interval = 0;
@@ -14,21 +31,14 @@
       getDataFromSpreadSheet();
       index = 0;
     }
-    if (imageList[index][imageURLColumn] == "") {
-      imageURL = defaultImageURL;
-    } else {
-      imageURL = imageList[index][imageURLColumn]
-    }
-    if (imageList[index][imageDispIntervalColomn] == "") {
-      interval = defaultInterval;
-    } else {
-      interval = imageList[index][imageDispIntervalColomn];
-    }
-    index++;
+    imageURL = validateImageURLData();
+    interval = validateIntervalData();
+
     showImage(imageURL, interval);
+    index++;
     addImagePreloadLink(imageList[index][imageURLColumn]);
     if (timerID) {
-      clearTimeout(timerID); 
+      clearTimeout(timerID);
     }
     timerID = setTimeout(() => changeImage(), interval * 1000)
   }
@@ -64,7 +74,7 @@
   function getDataFromSpreadSheet() {
     google.script.run.withSuccessHandler(setData).getData();
   }
-  function clearPreloadLink(){
+  function clearPreloadLink() {
     // 既存のpreloadリンクを削除
     const existingPreloadLinks = document.querySelectorAll('link[rel="preload"][as="image"]');
     existingPreloadLinks.forEach(link => link.remove());
