@@ -38,7 +38,7 @@ function changeImage() {
 function fadeInOut(interval) {
   const element = document.querySelector("#image");
   element.animate(
-    { opacity: [0, 1, 1, 1, 0] },
+    { opacity: [0, 1, 1, 1, 1, 1, 1, 1, 0] },
     {
       duration: 13000,
     }
