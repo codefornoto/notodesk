@@ -1,8 +1,8 @@
 let index = 0;
 let imageList = [];
 const URLColumn = 2;
-const imageDispIntervalColomn = 3;
-const movieFlag = 4;
+const imageDispIntervalColomn = 4;
+const movieFlag = 5;
 const defaultImageURL =
   "https://lh3.googleusercontent.com/d/1u3pXM4l88Gy-bHLNg7Qsepke86vEWGxS";
 const defaultInterval = 5; //秒
