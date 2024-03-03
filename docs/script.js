@@ -1,32 +1,41 @@
 let index = 0;
 let imageList = [];
-const imageURLColumn = 2;
-const imageDispIntervalColomn = 4;
+const URLColumn = 2;
+const imageDispIntervalColomn = 3;
+const movieFlag = 4;
 const defaultImageURL =
   "https://lh3.googleusercontent.com/d/1u3pXM4l88Gy-bHLNg7Qsepke86vEWGxS";
 const defaultInterval = 5; //秒
 let timerID = null;
 
 function changeImage() {
-  let imageURL = "";
+  let url = "";
   let interval = 0;
   if (index == imageList.length - 1) {
     getDataFromSpreadSheet();
     index = 0;
   }
-  if (imageList[index][imageURLColumn] == "") {
-    imageURL = defaultImageURL;
+  if (imageList[index][URLColumn] == "") {
+    url = defaultImageURL;
   } else {
-    imageURL = imageList[index][imageURLColumn];
+    url = imageList[index][URLColumn];
   }
   if (imageList[index][imageDispIntervalColomn] == "") {
     interval = defaultInterval;
   } else {
     interval = imageList[index][imageDispIntervalColomn];
   }
+  if (imageList[index][movieFlag]) {
+    console.log("movie: ", url + "?autoplay=1&mute=1&loop=1&controls=0");
+    showMovie(url + "?autoplay=1&mute=1&loop=1&controls=0", interval);
+  } else {
+    console.log("photo");
+    showImage(url, interval);
+  }
   index++;
-  showImage(imageURL, interval);
-  addImagePreloadLink(imageList[index][imageDispIntervalColomn]);
+  if (!imageList[index][movieFlag]) {
+    addImagePreloadLink(imageList[index][imageDispIntervalColomn]);
+  }
 
   if (timerID) {
     clearTimeout(timerID);
@@ -45,11 +54,34 @@ function fadeInOut(interval) {
   );
 }
 
+function hide(selector) {
+  // iframe要素を取得する
+  const dom = document.querySelector(selector);
+  // iframe要素のスタイルを変更して非表示にする
+  dom.style.display = "none";
+}
+
+function show(selector) {
+  // iframe要素を取得する
+  const dom = document.querySelector(selector);
+  // iframe要素のスタイルを変更して非表示にする
+  dom.style.display = "block";
+}
 //引数の画像を表示
 function showImage(url, interval) {
   fadeInOut(interval * 1000);
-  const imgElement = document.getElementById("image");
-  imgElement.src = url;
+  const element = document.getElementById("image");
+  hide(".video-frame");
+  element.src = url;
+  show(".upper-image");
+}
+
+function showMovie(url, interval) {
+  fadeInOut(interval * 1000);
+  const element = document.getElementById("video");
+  hide(".upper-image");
+  element.src = url;
+  show(".video-frame");
 }
 
 function clearPreloadLink() {
@@ -71,7 +103,7 @@ function addImagePreloadLink(imageURL) {
 
 function getDataFromSpreadSheet() {
   const END_POINT =
-    "https://script.google.com/macros/s/AKfycbwwFLLGWd1Bw_nedItK-8Eahe5WMDaWkyfO4864pO2ryjzmJv9RT7AL3wUq31qJV31J/exec";
+    "https://script.google.com/macros/s/AKfycbwPXvWjrPIX54-kNMqiIpKpPylMamMr_9_WRcCQ8T3eiAlMnUyztkcaIdV3H_9kStTv/exec";
   $.ajax({
     type: "GET",
     url: END_POINT,
@@ -86,7 +118,7 @@ function getDataFromSpreadSheet() {
     })
     .always((res) => {
       // 常にやる処理
-      // do something
+      // console.log(imageList);
     });
 }
 // main
