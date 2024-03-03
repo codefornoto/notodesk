@@ -26,10 +26,8 @@ function changeImage() {
     interval = imageList[index][imageDispIntervalColomn];
   }
   if (imageList[index][movieFlag]) {
-    console.log("movie: ", url + "?autoplay=1&mute=1&loop=1&controls=0");
     showMovie(url + "?autoplay=1&mute=1&loop=1&controls=0", interval);
   } else {
-    console.log("photo");
     showImage(url, interval);
   }
   index++;
@@ -118,7 +116,6 @@ function getDataFromSpreadSheet() {
     })
     .always((res) => {
       // 常にやる処理
-      // console.log(imageList);
     });
 }
 // main
