@@ -103,7 +103,7 @@ function addImagePreloadLink(imageURL) {
 
 function getDataFromSpreadSheet() {
   const END_POINT =
-    "https://script.google.com/macros/s/AKfycbwPXvWjrPIX54-kNMqiIpKpPylMamMr_9_WRcCQ8T3eiAlMnUyztkcaIdV3H_9kStTv/exec";
+    "https://script.google.com/macros/s/AKfycbx9n1nFCPnhNztb4I5GgXcRyd_QsM9OnwEEIOWX7n6Yv_nzyDExyNs3m5PqIfA8t6Cs/exec";
   $.ajax({
     type: "GET",
     url: END_POINT,

@@ -1,5 +1,5 @@
 const sheetUrl =
-  "https://docs.google.com/spreadsheets/d/1sE_Im2k6M0UtK_xrJjTIQkifmPTe5H25RXGUI1znfnI/";
+  "https://docs.google.com/spreadsheets/d/1bLkn1UgmdJVsoZ4-s0YVdWpBOFewe7gm113HOpGgTQQ/";
 const sheet = SpreadsheetApp.openByUrl(sheetUrl).getSheetByName("movie");
 
 function doGet() {
