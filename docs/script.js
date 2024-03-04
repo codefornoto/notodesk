@@ -42,8 +42,8 @@ function changeImage() {
 }
 
 // フェードインアウトの処理
-function fadeInOut(interval) {
-  const element = document.querySelector("#image");
+function fadeInOut(interval, target) {
+  const element = document.querySelector(target);
   element.animate(
     { opacity: [0, 1, 1, 1, 1, 1, 1, 1, 0] },
     {
@@ -67,7 +67,7 @@ function show(selector) {
 }
 //引数の画像を表示
 function showImage(url, interval) {
-  fadeInOut(interval * 1000);
+  fadeInOut(interval * 1000, "#image");
   const element = document.getElementById("image");
   hide(".video-frame");
   element.src = url;
@@ -75,7 +75,7 @@ function showImage(url, interval) {
 }
 
 function showMovie(url, interval) {
-  fadeInOut(interval * 1000);
+  fadeInOut(interval * 1000, "#video");
   const element = document.getElementById("video");
   hide(".upper-image");
   element.src = url;
