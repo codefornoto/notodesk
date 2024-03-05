@@ -2,7 +2,8 @@ let index = 0;
 let imageList = [];
 const URLColumn = 2;
 const imageDispIntervalColomn = 4;
-const movieFlag = 5;
+const movieFlagColumn = 5;
+const movieURLColumn = 6;
 const defaultImageURL =
   "https://lh3.googleusercontent.com/d/1u3pXM4l88Gy-bHLNg7Qsepke86vEWGxS";
 const defaultInterval = 5; //秒
@@ -25,13 +26,15 @@ function changeImage() {
   } else {
     interval = imageList[index][imageDispIntervalColomn];
   }
-  if (imageList[index][movieFlag]) {
-    showMovie(url + "?autoplay=1&mute=1&loop=1&controls=0", interval);
-  } else {
-    showImage(url, interval);
+  showImage(url, interval);
+  if (imageList[index][movieFlagColumn]) {
+    showMovie(
+      imageList[index][movieURLColumn] + "?autoplay=1&mute=1&loop=1&controls=0",
+      interval
+    );
   }
   index++;
-  if (!imageList[index][movieFlag]) {
+  if (!imageList[index][movieURLColumn]) {
     addImagePreloadLink(imageList[index][imageDispIntervalColomn]);
   }
 
@@ -56,14 +59,14 @@ function hide(selector) {
   // iframe要素を取得する
   const dom = document.querySelector(selector);
   // iframe要素のスタイルを変更して非表示にする
-  dom.style.display = "none";
+  dom.style.visibility = "hidden";
 }
 
 function show(selector) {
   // iframe要素を取得する
   const dom = document.querySelector(selector);
   // iframe要素のスタイルを変更して非表示にする
-  dom.style.display = "block";
+  dom.style.visibility = "visible";
 }
 //引数の画像を表示
 function showImage(url, interval) {
